@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link crossorigin="anonymous"
+              href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+              integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+              rel="stylesheet">
+        <script crossorigin="anonymous"
+                integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+                src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+        <link href="css/jump.css" rel="stylesheet">
+        <title>PointBar Configuration</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>PointBar Configuration</h1>
+            <form id="configForm">
+                <div class="form-group">
+                    <label for="barTextInput">Text</label>
+                    <input class="form-control" id="barTextInput" placeholder="Jumpscare...?" type="text"
+                           value="Jumpscare...?">
+                    <small class="form-text text-muted" id="barTextHint">The Text to display on the Bar</small>
+                </div>
+                <div class="form-group">
+                    <label for="startInput">Start Value</label>
+                    <input class="form-control" id="startInput" placeholder="50" type="number" value="50">
+                    <small class="form-text text-muted" id="numberHint">The % Value the Bar should start out at</small>
+                </div>
+                <div class="form-group">
+                    <label for="intervalInput">Total Time</label>
+                    <input class="form-control" id="intervalInput" placeholder="1800" type="number" value="1800">
+                    <small class="form-text text-muted" id="intervalHint">The total time in seconds indicating how long
+                        it will take for the Bar to deplete</small>
+                </div>
+                <div class="form-group">
+                    <label for="soundFileLinkInput">Sound File Link</label>
+                    <input class="form-control" id="soundFileLinkInput"
+                           placeholder="https://lowee.de/2021-02-02_03-19-35.mp3"
+                           type="text"
+                           value="https://lowee.de/2021-02-02_03-19-35.mp3">
+                    <small class="form-text text-muted" id="soundFileHint">The Link to the audio file to play when time
+                        runs out / the goal gets met</small>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="reverseModeCheckbox" type="checkbox">
+                    <label class="form-check-label" for="reverseModeCheckbox">Reverse Mode <small>(aka "Battle
+                        Mode", "Hype-O-Meter Mode")</small> <small class="form-text text-muted" id="reverseModeHint">This means the Sound
+                        effect will play when
+                        the bar fills and the bar will not reset to full when empty</small></label>
+
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="allowBitsCheckbox" type="checkbox">
+                    <label class="form-check-label" for="allowBitsCheckbox">Allow Bits to fill the Bar</label>
+                </div>
+                <div class="form-group">
+                    <label for="bitPercentInput">Bit increment Value</label>
+                    <input class="form-control" id="bitPercentInput" placeholder="1" type="number" value="1">
+                    <small class="form-text text-muted" id="bitPercentHint">How many % the bar should refill per
+                        Bit</small>
+                </div>
+                <div class="form-group">
+                    <label for="redemptionPercentInput">Channel Points increment Value</label>
+                    <input class="form-control" id="redemptionPercentInput" placeholder="1" type="number" value="1">
+                    <small class="form-text text-muted" id="redemptionPercentHint">How many % the bar should refill per
+                        Channel Point Redemption (NOT its cost!)</small>
+                </div>
+
+            </form>
+            <label for="output">URL for Browser Source: </label><input class="form-control" id="output" type="text">
+            <br/>
+            <button class="btn btn-primary" onclick="copyOutput()">Copy</button>
+        </div>
+    </body>
+    <script src="js/form.js"></script>
+</html>
