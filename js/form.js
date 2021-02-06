@@ -10,7 +10,8 @@ function listener()  {
         + "&bits=" + document.getElementById("allowBitsCheckbox").checked.toString()
         + "&percentPerBit=" + document.getElementById("bitPercentInput").value
         + "&text=" + encodeURIComponent(document.getElementById("barTextInput").value)
-        + "&reverse=" + document.getElementById("reverseModeCheckbox").checked.toString();
+        + "&reverse=" + document.getElementById("reverseModeCheckbox").checked.toString()
+        + "&nodecay=" + document.getElementById("nodecayModeCheckbox").checked.toString();
 }
 
 let form = document.getElementById("configForm");

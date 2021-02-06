@@ -15,6 +15,7 @@ let allowBits = params.get("bits") === "true";
 let percentPerBit = params.get("percentPerBit") ? parseInt(params.get("percentPerBit")) : 1;
 let jumpText = params.get("text") ? params.get("text") : "Jumpscare....?"
 let reverse = params.get("reverse") === "true";
+let nodecay = params.get("nodecay") === "true";
 let refreshRate = 10;
 let rewardsText = "Refill Point Bar";
 let rewardDescription = "Refills the \"Point Bar\" by " + percentIncrease + "%";
@@ -199,7 +200,7 @@ async function setup() {
             }
         }
     };
-    pubSub.onopen = async (event) => {
+    pubSub.onopen = async () => {
         console.log("Connected to pubsub...");
         pubSub.send(JSON.stringify({
             type: "LISTEN",
@@ -219,7 +220,7 @@ async function setup() {
 
 async function updateLoop() {
     let wasReset = true;
-    if (!debugStop) {
+    if ((!debugStop) && (!nodecay)) {
         wasReset = await updateProgress((-1 / refreshRate) * (100 / (totalInterval / 1000)));
     }
     setTimeout(updateLoop, wasReset ? (duration * 1000) : (1000 / refreshRate));
