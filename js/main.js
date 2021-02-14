@@ -220,8 +220,8 @@ async function setup() {
 
 async function updateLoop() {
     let wasReset = true;
-    if ((!debugStop) && (!nodecay)) {
-        wasReset = await updateProgress((-1 / refreshRate) * (100 / (totalInterval / 1000)));
+    if (!debugStop) {
+        wasReset = await updateProgress(nodecay ? 0 : ((-1 / refreshRate) * (100 / (totalInterval / 1000))));
     }
     setTimeout(updateLoop, wasReset ? (duration * 1000) : (1000 / refreshRate));
 }
