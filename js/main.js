@@ -14,7 +14,7 @@ let percentIncrease = params.get("increase") ? parseInt(params.get("increase")) 
 let allowBits = params.get("bits") === "true";
 let percentPerBit = params.get("percentPerBit") ? parseInt(params.get("percentPerBit")) : 1;
 let jumpText = params.get("text") ? params.get("text") : "Jumpscare....?"
-let reverse = params.get("reverse") === "true";
+let type = params.get("type") ? params.get("type") : "jump";
 let nodecay = params.get("nodecay") === "true";
 let refreshRate = 10;
 let rewardsText = "Refill Point Bar";
@@ -43,7 +43,7 @@ async function updateProgress(change) {
         duration = audio.duration;
     }
 
-    if (!reverse) {
+    if (type === "jump") {
         if (percent <= 0) {
             // In default mode, hit 0. Play sound, reset progress.
             await playSound();
@@ -51,8 +51,7 @@ async function updateProgress(change) {
             wasReset = true;
         }
         percent = Math.min(100, percent);
-    }
-    if (reverse) {
+    } else if (type === "hype") {
         if (percent >= 100) {
             // we are in reverse mode and hit 100
             await playSound();

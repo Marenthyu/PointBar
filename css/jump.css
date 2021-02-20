@@ -5,4 +5,38 @@
 .progress, .progress-bar {
     animation-timing-function: linear;
     font-size: 6vmax;
+    overflow: visible;
+}
+
+#modeToggles {
+    width:100%;
+}
+
+input[type=color] {
+    display: inline-block;
+    height: 2.4rem;
+    flex: none!important;
+    width: 3rem!important;
+}
+
+#preview {
+    height: 2.4rem;
+    border: none;
+    margin: 0;
+    top: -.4rem;
+}
+
+#preview > .progress {
+    height: 2.4rem;
+    width: 100%;
+}
+
+#preview > .progress > .progress-bar {
+    width: 25%;
+    font-size: 2.4rem;
+}
+
+#obsDrag {
+    height: 5.5rem;
+    cursor: grab;
 }

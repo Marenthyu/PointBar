@@ -17,6 +17,25 @@
             <h1>PointBar Configuration</h1>
             <form id="configForm">
                 <div class="form-group">
+                    <label for="modeToggles">Mode</label><br>
+                    <div class="btn-group" id="modeToggles" role="group">
+                        <input autocomplete="off" checked class="btn-check" id="modeBtnJump" name="modeRadio"
+                               type="radio" value="jump">
+                        <label class="btn btn-outline-primary" for="modeBtnJump">Jumpscare</label>
+
+                        <input autocomplete="off" class="btn-check" id="modeBtnHype" name="modeRadio" type="radio"
+                               value="hype">
+                        <label class="btn btn-outline-primary" for="modeBtnHype">Hype / Goal</label>
+
+                        <input autocomplete="off" class="btn-check" id="modeBtnTug" name="modeRadio" type="radio"
+                               value="tug">
+                        <label class="btn btn-outline-danger" for="modeBtnTug">Tug of War</label>
+                    </div>
+                    <div id="modeExplanation">
+                        [Explanation goes here]
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="barTextInput">Text</label>
                     <input class="form-control" id="barTextInput" placeholder="Jumpscare...?" type="text"
                            value="Jumpscare...?">
@@ -42,20 +61,11 @@
                     <small class="form-text text-muted" id="soundFileHint">The Link to the audio file to play when time
                         runs out / the goal gets met</small>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" id="reverseModeCheckbox" type="checkbox">
-                    <label class="form-check-label" for="reverseModeCheckbox">Reverse Mode <small>(aka "Battle
-                        Mode", "Hype-O-Meter Mode")</small> <small class="form-text text-muted" id="reverseModeHint">This
-                        means the Sound
-                        effect will play when
-                        the bar fills and the bar will not reset to full when empty</small></label>
-
-                </div>
-                <div class="form-check">
+                <div class="form-check" id="decayDiv">
                     <input class="form-check-input" id="nodecayModeCheckbox" type="checkbox">
                     <label class="form-check-label" for="nodecayModeCheckbox">No Decay <small>(aka "Goal Mode")</small>
                         <small class="form-text text-muted" id="nodecayModeHint">This means the Bar will not decay on
-                            its own. Kinda useless without reverse mode, but you do you.</small></label>
+                            its own.</small></label>
 
                 </div>
                 <div class="form-check">
@@ -74,11 +84,50 @@
                     <small class="form-text text-muted" id="redemptionPercentHint">How many % the bar should refill per
                         Channel Point Redemption (NOT its cost!)</small>
                 </div>
-
+                <h3>Color Config</h3>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-text">Text Color</span>
+                        <!--suppress HtmlFormInputWithoutLabel -->
+                        <input class="form-control input-group-text" id="textColor" type="color" value="#ffffff">
+                        <span class="input-group-text">Background Color</span>
+                        <!--suppress HtmlFormInputWithoutLabel -->
+                        <input class="form-control input-group-text" id="bgColor" type="color" value="#e9ecef">
+                        <span class="input-group-text">Fill Color</span>
+                        <!--suppress HtmlFormInputWithoutLabel -->
+                        <input class="form-control input-group-text" id="fillColor" type="color" value="#0d6efd">
+                        <div class="form-control" id="preview">
+                            <div class="progress">
+                                <div class="progress-bar" id="jumpBar" role="progressbar">This is an Example!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
             </form>
-            <label for="output">URL for Browser Source: </label><input class="form-control" id="output" type="text">
+            <label for="cssOutput">CSS to apply Custom Colors: </label>
+            <div class="input-group"><input class="form-control" id="cssOutput" type="text">
+                <button class="btn btn-primary"
+                        onclick="copyCSSOutput()">Copy
+                </button>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="output">URL for Browser Source: </label>
+                    <div class="input-group"><input class="form-control" id="output" type="text">
+                        <button class="btn btn-primary"
+                                onclick="copyOutput()">Copy
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    Or Drag&Drop this into OBS: <img alt="OBS Drag&Drop image" src="https://img.icons8.com/ios-filled/344/drag-and-drop.png" id="obsDrag" draggable="true">
+                </div>
+            </div>
+
             <br/>
-            <button class="btn btn-primary" onclick="copyOutput()">Copy</button>
+            <small>Drag&Drop Icon by <a href="https://icons8.com">Icons8.com</a></small>
         </div>
     </body>
     <script src="js/form.js"></script>
