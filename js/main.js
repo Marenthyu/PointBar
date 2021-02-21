@@ -121,7 +121,7 @@ async function main() {
             console.log("Got initial token, stored token was invalid...");
             let initialVerified = await verifyToken(initialToken);
             if (initialVerified) {
-                token = initialVerified;
+                token = initialToken;
                 localStorage.setItem("twitchToken", token);
                 await setup();
             } else {
@@ -162,6 +162,7 @@ async function verifyToken(tokenToVerify) {
 
 async function setup() {
     bar.innerText = "Checking Rewards...";
+    console.log("Token before fetching was: " + token);
     let found = false;
     if (rewardID !== null) {
         let rewardsResponse = await fetch("https://api.twitch.tv/helix/channel_points/custom_rewards?only_manageable_rewards=true&broadcaster_id=" + userID, {
