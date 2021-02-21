@@ -56,10 +56,13 @@
                 </div>
                 <div class="form-group">
                     <label for="soundFileLinkInput">Sound File Link</label>
+                    <div class="input-group">
                     <input class="form-control" id="soundFileLinkInput"
                            placeholder="https://lowee.de/2021-02-02_03-19-35.mp3"
                            type="text"
                            value="https://lowee.de/2021-02-02_03-19-35.mp3">
+                        <button id="testBtn" onclick="return testPlay()" class="btn btn-primary" >Test this!</button>
+                    </div>
                     <small class="form-text text-muted" id="soundFileHint">The Link to the audio file to play when time
                         runs out / the goal gets met</small>
                 </div>

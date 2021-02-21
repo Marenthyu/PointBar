@@ -248,3 +248,33 @@ function addTwitchLogin() {
     refreshOutput();
 
 }
+
+function testPlay(){
+    try {
+        let audio = new Audio(document.getElementById("soundFileLinkInput").value);
+        audio.play().then(() => {
+            document.getElementById("testBtn").innerText = "Playing...";
+            let duration = audio.duration;
+            setTimeout(() => {
+                document.getElementById("testBtn").innerText = "Test this!";
+            }, duration*1000)
+        }).catch((e) => {
+            playErrorHandler(e);
+        });
+    } catch(e) {
+        playErrorHandler(e);
+    }
+    return false;
+}
+
+function playErrorHandler(e) {
+    console.error(e);
+    document.getElementById("testBtn").innerText = "ERROR. Try something else.";
+    document.getElementById("testBtn").classList.remove("btn-primary");
+    document.getElementById("testBtn").classList.add("btn-danger");
+    setTimeout(() => {
+        document.getElementById("testBtn").innerText = "Test this!";
+        document.getElementById("testBtn").classList.remove("btn-danger");
+        document.getElementById("testBtn").classList.add("btn-primary");
+    }, 5000)
+}
