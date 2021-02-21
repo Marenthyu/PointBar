@@ -1,6 +1,7 @@
 "use strict";
 let clientID = "nxkxsr40pk41esg5hs2kiwjxmfpsce";
 let token = localStorage.getItem("twitchToken");
+let initialToken = null;
 let rewardID = localStorage.getItem("rewardID");
 let params = new URLSearchParams(window.location.search);
 let userID;
@@ -21,7 +22,7 @@ let rewardsText = "Refill Point Bar";
 let rewardDescription = "Refills the \"Point Bar\" by " + percentIncrease + "%";
 let debugStop = false;
 let duration = 3;
-bar.innerText = jumpText;
+bar.innerText = "Checking authentication...";
 //bar.style.animationDuration = /*(1 / refreshRate) + */"0s";
 //bar.style.animation = "none !important";
 
@@ -91,46 +92,72 @@ async function main() {
                     localStorage.setItem("twitchToken", token);
                     break;
                 }
+                case "initial_token": {
+                    initialToken = value;
+                    break;
+                }
             }
         }
     }
+
     if (token === null) {
         console.log("TOKEN WAS NULL");
-        redirectToAuth();
+        await verifyInitial();
     } else {
         console.log("Got a token, verifying...");
-        try {
-            let response = await fetch("https://id.twitch.tv/oauth2/validate", {headers: {"Authorization": "OAuth " + token}});
-            let j = await response.json();
-            console.log("Auth response: ");
-            console.log(JSON.stringify(j));
-            userID = j.user_id;
-            let hascpRead = false, hascpWrite = false, hasBitRead = false;
-            for (let scope of j.scopes) {
-                if (scope === "bits:read") {
-                    hasBitRead = true;
-                } else if (scope === "channel:read:redemptions") {
-                    hascpRead = true;
-                } else if (scope === "channel:manage:redemptions") {
-                    hascpWrite = true;
-                }
-            }
-            if (!(hascpRead && hascpWrite && hasBitRead)) {
-                redirectToAuth();
-                return
-            }
-        } catch (e) {
-            console.log("Error verifying...");
-            console.error(e);
-            redirectToAuth();
-            return;
+        let verified = await verifyToken(token);
+        if (verified) {
+            await setup();
+        } else {
+            await verifyInitial();
         }
-        await setup();
+    }
 
+    async function verifyInitial() {
+        if (initialToken === null) {
+            redirectToAuth();
+        } else {
+            console.log("Got initial token, stored token was invalid...");
+            let initialVerified = await verifyToken(initialToken);
+            if (initialVerified) {
+                token = initialVerified;
+                localStorage.setItem("twitchToken", token);
+                await setup();
+            } else {
+                redirectToAuth();
+            }
+        }
+    }
+}
+
+async function verifyToken(tokenToVerify) {
+    try {
+        let response = await fetch("https://id.twitch.tv/oauth2/validate", {headers: {"Authorization": "OAuth " + tokenToVerify}});
+        let j = await response.json();
+        console.log("Auth response: ");
+        console.log(JSON.stringify(j));
+        userID = j.user_id;
+        let hascpRead = false, hascpWrite = false, hasBitRead = false;
+        for (let scope of j.scopes) {
+            if (scope === "bits:read") {
+                hasBitRead = true;
+            } else if (scope === "channel:read:redemptions") {
+                hascpRead = true;
+            } else if (scope === "channel:manage:redemptions") {
+                hascpWrite = true;
+            }
+        }
+        return hascpRead && hascpWrite && hasBitRead;
+
+    } catch (e) {
+        console.log("Error verifying...");
+        console.error(e);
+        return false;
     }
 }
 
 async function setup() {
+    bar.innerText = "Checking Rewards...";
     let found = false;
     if (rewardID !== null) {
         let rewardsResponse = await fetch("https://api.twitch.tv/helix/channel_points/custom_rewards?only_manageable_rewards=true&broadcaster_id=" + userID, {
@@ -174,6 +201,7 @@ async function setup() {
         }
     }
     if (rewardID === null) {
+        bar.innerText = "Error getting Rewards properly, you shouldn't be seeing this. Try reloading!";
         return
     }
     pubSub = new WebSocket("wss://pubsub-edge.twitch.tv");
@@ -215,6 +243,7 @@ async function setup() {
         setTimeout(updateLoop, 1000);
         await updateProgress(0);
     };
+    bar.innerText = jumpText;
 }
 
 async function updateLoop() {
