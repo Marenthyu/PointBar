@@ -130,7 +130,10 @@ async function main() {
     }
 }
 
+
 async function verifyToken(tokenToVerify) {
+    // i know it's duplicated, but i can't be bothered to make the userID accessible from another file.
+    // noinspection DuplicatedCode
     try {
         let response = await fetch("https://id.twitch.tv/oauth2/validate", {headers: {"Authorization": "OAuth " + tokenToVerify}});
         let j = await response.json();

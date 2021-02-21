@@ -2,6 +2,9 @@
 let sheet = window.document.styleSheets[0];
 let initialPositionForCssRules = sheet.cssRules.length;
 let hasCreatedOnce = false;
+let clientID = "nxkxsr40pk41esg5hs2kiwjxmfpsce";
+let hash = document.location.hash;
+let token = localStorage.getItem("twitchToken");
 
 function hideDecay() {
     document.getElementById("nodecayModeCheckbox").checked = false;
@@ -45,7 +48,8 @@ function listener() {
         + "&percentPerBit=" + document.getElementById("bitPercentInput").value
         + "&text=" + encodeURIComponent(document.getElementById("barTextInput").value)
         + "&type=" + type
-        + "&nodecay=" + document.getElementById("nodecayModeCheckbox").checked.toString();
+        + "&nodecay=" + document.getElementById("nodecayModeCheckbox").checked.toString()
+        + (token !== null && token !== "null" ? "#initial_token=" + token : "");
     if (hasCreatedOnce) {
         sheet.deleteRule(initialPositionForCssRules);
         sheet.deleteRule(initialPositionForCssRules);
@@ -70,7 +74,11 @@ listener();
 
 document.addEventListener("dragstart", e => {
     e.dataTransfer.setDragImage(document.querySelector('#obsDrag'), 30, 30);
-    e.dataTransfer.setData("text/uri-list", document.getElementById("output").value + "&layer-name=Point Bar&layer-width=1200&layer-height=150")
+    let url = new URL(document.getElementById("output").value);
+    url.searchParams.append("layer-name", "PointBar");
+    url.searchParams.append("layer-width", "1200");
+    url.searchParams.append("layer-height", "150");
+    e.dataTransfer.setData("text/uri-list",  url.toString());
 });
 
 function copyOutput() {
@@ -102,4 +110,77 @@ function getType() {
             return type.value;
         }
     }
+}
+
+async function main() {
+    console.log("hash: " + hash);
+    if (hash !== null && hash.startsWith("#")) {
+        hash = hash.substr(1);
+        for (let part of hash.split("&")) {
+            let subparts = part.split("=");
+            let key = subparts[0];
+            let value = subparts[1];
+            console.log(key + " = " + value);
+            switch (key) {
+                case "access_token": {
+                    token = value;
+                    localStorage.setItem("twitchToken", token);
+                    break;
+                }
+            }
+        }
+    }
+    if (token === null) {
+        console.log("TOKEN WAS NULL");
+    } else {
+        console.log("Got a token, verifying...");
+        let verified = await verifyToken(token);
+        if (verified) {
+            console.log("Yay, we got a valid token!");
+        } else {
+            token = null;
+            localStorage.setItem("twitchToken", token);
+        }
+    }
+    listener();
+}
+
+let p = new Promise(main);
+p.then();
+
+async function verifyToken(tokenToVerify) {
+    // noinspection DuplicatedCode
+    try {
+        let response = await fetch("https://id.twitch.tv/oauth2/validate", {headers: {"Authorization": "OAuth " + tokenToVerify}});
+        let j = await response.json();
+        console.log("Auth response: ");
+        console.log(JSON.stringify(j));
+        let hascpRead = false, hascpWrite = false, hasBitRead = false;
+        if (j.status === 401) {
+            return false
+        }
+        for (let scope of j.scopes) {
+            if (scope === "bits:read") {
+                hasBitRead = true;
+            } else if (scope === "channel:read:redemptions") {
+                hascpRead = true;
+            } else if (scope === "channel:manage:redemptions") {
+                hascpWrite = true;
+            }
+        }
+        return hascpRead && hascpWrite && hasBitRead;
+
+    } catch (e) {
+        console.log("Error verifying...");
+        console.error(e);
+        return false;
+    }
+}
+
+function addTwitchLogin() {
+    window.location = "https://id.twitch.tv/oauth2/authorize" +
+        "?client_id=" + clientID +
+        "&redirect_uri=" + encodeURI("https://marenthyu.de/twitch/jump/config") +
+        "&response_type=token" +
+        "&scope=channel:manage:redemptions+channel:read:redemptions+bits:read"
 }
