@@ -40,3 +40,13 @@ input[type=color] {
     height: 5.5rem;
     cursor: grab;
 }
+
+.btn-twitch {
+    background-color: rgb(145,70,255);
+    color: rgb(240,240,255);
+}
+
+.btn-twitch > img {
+    height: 1.5rem;
+    margin-left: .5rem;
+}
