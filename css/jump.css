@@ -73,3 +73,25 @@ input[type=color] {
     height: 1.5rem;
     margin-left: .5rem;
 }
+
+
+@media (prefers-color-scheme: dark) {
+    body, #preview {
+        background-color: #1b1c1f;
+        color: rgb(193, 193, 207);
+    }
+
+    .form-control, .input-group-text {
+        background-color: #16171a;
+        color: rgb(193, 193, 207);
+        border-color: #35383c;
+    }
+
+    .form-control:hover, .form-control:focus {
+        background-color: #060607;
+        color: rgb(193, 193, 207);
+    }
+    #obsDrag {
+        filter: invert(.9);
+    }
+}
