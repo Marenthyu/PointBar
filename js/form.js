@@ -5,6 +5,9 @@ let hasCreatedOnce = false;
 let clientID = "nxkxsr40pk41esg5hs2kiwjxmfpsce";
 let hash = document.location.hash;
 let token = localStorage.getItem("twitchToken");
+let twitchBtn = document.getElementsByClassName("btn-twitch")[0];
+let twitchBtnInner = twitchBtn.innerHTML;
+let initialized = false;
 
 function hideDecay() {
     document.getElementById("nodecayModeCheckbox").checked = false;
@@ -21,7 +24,28 @@ let explanationDict = {
     "tug": "Let your viewers choose a side and battle it out in a Tug of War - triggering a sound depending on the winning side, then resetting to 50/50.\n\n-----NOT YET IMPLEMENTED------\n"
 }
 
-function listener() {
+function refreshOutput() {
+    if (!initialized) {
+        let savedType = localStorage.getItem("savedType") ? localStorage.getItem("savedType") : "jump";
+        setType(savedType);
+        document.getElementById("startInput").value = localStorage.getItem("savedStart") ? parseInt(localStorage.getItem("savedStart")) : 50;
+        document.getElementById("soundFileLinkInput").value = localStorage.getItem("savedFile") ? localStorage.getItem("savedFile") : "https://lowee.de/2021-02-02_03-19-35.mp3";
+        document.getElementById("intervalInput").value = localStorage.getItem("savedInterval") ? parseInt(localStorage.getItem("savedInterval")) : 1800;
+        document.getElementById("redemptionPercentInput").value = localStorage.getItem("savedIncrease") ? parseFloat(localStorage.getItem("savedIncrease")) : 1;
+        let savedBitsAllowed = localStorage.getItem("savedBitsAllowed") ? localStorage.getItem("savedBitsAllowed") : "false";
+        document.getElementById("allowBitsCheckbox").checked = savedBitsAllowed === "true";
+        document.getElementById("bitPercentInput").value = localStorage.getItem("savedPercentPerBit") ? parseFloat(localStorage.getItem("savedPercentPerBit")) : 1;
+        document.getElementById("barTextInput").value = localStorage.getItem("savedText") ? localStorage.getItem("savedText") : "Jumpscare...?";
+        let savedNoDecay = localStorage.getItem("savedNoDecay") ? localStorage.getItem("savedNoDecay") : "false";
+        document.getElementById("nodecayModeCheckbox").checked = savedNoDecay === "true";
+
+        document.getElementById("fillColor").value = localStorage.getItem("savedFillColor") ? localStorage.getItem("savedFillColor") : "#0d6efd";
+        document.getElementById("bgColor").value = localStorage.getItem("savedBgColor") ? localStorage.getItem("savedBgColor") : "#808080";
+        document.getElementById("textColor").value = localStorage.getItem("savedTextColor") ? localStorage.getItem("savedTextColor") : "#ffffff";
+        document.getElementById("opacitySlider").value = localStorage.getItem("savedOpacity") ? localStorage.getItem("savedOpacity") : 0.5;
+
+        initialized = true;
+    }
     let location = document.location.toString().substring(0, document.location.toString().lastIndexOf("/"));
     let type = getType();
     switch (type) {
@@ -50,6 +74,7 @@ function listener() {
         + "&type=" + type
         + "&nodecay=" + document.getElementById("nodecayModeCheckbox").checked.toString()
         + (token !== null && token !== "null" ? "#initial_token=" + token : "");
+
     if (hasCreatedOnce) {
         sheet.deleteRule(initialPositionForCssRules);
         sheet.deleteRule(initialPositionForCssRules);
@@ -70,11 +95,27 @@ function listener() {
         sheet.cssRules[initialPositionForCssRules].cssText + " "
         + sheet.cssRules[initialPositionForCssRules + 1].cssText + " "
         + sheet.cssRules[initialPositionForCssRules + 2].cssText;
+
+    localStorage.setItem("savedType", type);
+    localStorage.setItem("savedStart", document.getElementById("startInput").value);
+    localStorage.setItem("savedFile", document.getElementById("soundFileLinkInput").value);
+    localStorage.setItem("savedInterval", document.getElementById("intervalInput").value);
+    localStorage.setItem("savedIncrease", document.getElementById("redemptionPercentInput").value );
+    localStorage.setItem("savedBitsAllowed", document.getElementById("allowBitsCheckbox").checked);
+    localStorage.setItem("savedPercentPerBit", document.getElementById("bitPercentInput").value);
+    localStorage.setItem("savedText", document.getElementById("barTextInput").value);
+    localStorage.setItem("savedNoDecay", document.getElementById("nodecayModeCheckbox").checked);
+
+    localStorage.setItem("savedFillColor", document.getElementById("fillColor").value);
+    localStorage.setItem("savedBgColor", document.getElementById("bgColor").value);
+    localStorage.setItem("savedTextColor", document.getElementById("textColor").value);
+    localStorage.setItem("savedOpacity", document.getElementById("opacitySlider").value);
+
 }
 
 let form = document.getElementById("configForm");
-form.addEventListener("input", listener);
-listener();
+form.addEventListener("input", refreshOutput);
+refreshOutput();
 
 document.addEventListener("dragstart", e => {
     e.dataTransfer.setDragImage(document.querySelector('#obsDrag'), 30, 30);
@@ -116,6 +157,13 @@ function getType() {
     }
 }
 
+function setType(type) {
+    let types = document.getElementsByName("modeRadio");
+    for (let t of types) {
+        t.checked = t.value === type;
+    }
+}
+
 async function main() {
     console.log("hash: " + hash);
     if (hash !== null && hash.startsWith("#")) {
@@ -141,12 +189,14 @@ async function main() {
         let verified = await verifyToken(token);
         if (verified) {
             console.log("Yay, we got a valid token!");
+            document.getElementsByClassName("btn-twitch")[0].classList.add("btn-twitch-remove");
+            twitchBtn.innerText = "Remove Twitch Login";
         } else {
             token = null;
             localStorage.setItem("twitchToken", token);
         }
     }
-    listener();
+    refreshOutput();
 }
 
 let p = new Promise(main);
@@ -182,9 +232,19 @@ async function verifyToken(tokenToVerify) {
 }
 
 function addTwitchLogin() {
-    window.location = "https://id.twitch.tv/oauth2/authorize" +
-        "?client_id=" + clientID +
-        "&redirect_uri=" + encodeURI("https://marenthyu.de/twitch/jump/config") +
-        "&response_type=token" +
-        "&scope=channel:manage:redemptions+channel:read:redemptions+bits:read"
+    if (token !== null) {
+        token = null;
+        localStorage.setItem("twitchToken", null);
+        twitchBtn.classList.remove("btn-twitch-remove");
+        twitchBtn.innerHTML = twitchBtnInner;
+
+    } else {
+        window.location = "https://id.twitch.tv/oauth2/authorize" +
+            "?client_id=" + clientID +
+            "&redirect_uri=" + encodeURI("https://marenthyu.de/twitch/jump/config") +
+            "&response_type=token" +
+            "&scope=channel:manage:redemptions+channel:read:redemptions+bits:read"
+    }
+    refreshOutput();
+
 }

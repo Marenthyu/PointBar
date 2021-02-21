@@ -61,6 +61,14 @@ input[type=color] {
     color: rgb(240, 240, 255);
 }
 
+.btn-twitch-remove {
+    background-color: rgb(250, 40, 40);
+}
+
+.btn-twitch-remove:hover {
+    background-color: rgb(160, 25, 25);
+}
+
 .btn-twitch > img {
     height: 1.5rem;
     margin-left: .5rem;
