@@ -57,11 +57,11 @@
                 <div class="form-group">
                     <label for="soundFileLinkInput">Sound File Link</label>
                     <div class="input-group">
-                    <input class="form-control" id="soundFileLinkInput"
-                           placeholder="https://lowee.de/2021-02-02_03-19-35.mp3"
-                           type="text"
-                           value="https://lowee.de/2021-02-02_03-19-35.mp3">
-                        <button id="testBtn" onclick="return testPlay()" class="btn btn-primary" >Test this!</button>
+                        <input class="form-control" id="soundFileLinkInput"
+                               placeholder="https://lowee.de/2021-02-02_03-19-35.mp3"
+                               type="text"
+                               value="https://lowee.de/2021-02-02_03-19-35.mp3">
+                        <button class="btn btn-primary" id="testBtn" onclick="return testPlay()">Test this!</button>
                     </div>
                     <small class="form-text text-muted" id="soundFileHint">The Link to the audio file to play when time
                         runs out / the goal gets met</small>
@@ -93,15 +93,13 @@
                 <h3>Color Config</h3>
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-text">Text Color</span>
-                        <!--suppress HtmlFormInputWithoutLabel -->
                         <input class="form-control input-group-text" id="textColor" type="color" value="#ffffff">
-                        <span class="input-group-text">Background Color</span>
-                        <!--suppress HtmlFormInputWithoutLabel -->
+                        <label class="input-group-text" for="textColor">Text Color</label>
                         <input class="form-control input-group-text" id="bgColor" type="color" value="#808080">
-                        <span class="input-group-text">Fill Color</span>
-                        <!--suppress HtmlFormInputWithoutLabel -->
+                        <label class="input-group-text" for="bgColor">Background Color</label>
                         <input class="form-control input-group-text" id="fillColor" type="color" value="#0d6efd">
+                        <label class="input-group-text" for="fillColor">Fill Color</label>
+
                         <div class="form-control" id="preview">
                             <div class="progress">
                                 <div class="progress-bar" id="jumpBar" role="progressbar">This is an Example!</div>
@@ -110,7 +108,7 @@
                     </div>
                     <br>
                     <label for="opacitySlider">Background Opacity <small>(That's the opposite of Transparency!)</small></label>
-                    <input type="range" class="form-range" id="opacitySlider" min="0" max="1" value="0.5" step="0.01">
+                    <input class="form-range" id="opacitySlider" max="1" min="0" step="0.01" type="range" value="0.5">
                 </div>
             </form>
             <hr>
@@ -130,12 +128,15 @@
                                 onclick="copyOutput()">Copy
                         </button>
                         <a class="btn btn-twitch"
-                                onclick="addTwitchLogin()">Add Twitch Login <img alt="Glitch" src="https://lowee.de/2021-02-21_12-15-21.svg">
+                           onclick="addTwitchLogin()">Add Twitch Login <img alt="Glitch"
+                                                                            src="https://lowee.de/2021-02-21_12-15-21.svg">
                         </a>
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    Or Drag&Drop this into OBS: <img alt="OBS Drag&Drop image" src="https://img.icons8.com/ios-filled/344/drag-and-drop.png" id="obsDrag" draggable="true">
+                    Or Drag&Drop this into OBS: <img alt="OBS Drag&Drop image"
+                                                     draggable="true"
+                                                     id="obsDrag" src="https://img.icons8.com/ios-filled/344/drag-and-drop.png">
                 </div>
             </div>
 
