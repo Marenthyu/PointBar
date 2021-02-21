@@ -1,3 +1,7 @@
+body {
+    background-color: rgb(240,240,255);
+}
+
 .progress{
     width: 100vw;
     height: 100vh;
@@ -24,6 +28,7 @@ input[type=color] {
     border: none;
     margin: 0;
     top: -.4rem;
+    background-color: rgb(240,240,255);
 }
 
 #preview > .progress {
@@ -43,6 +48,11 @@ input[type=color] {
 
 .btn-twitch {
     background-color: rgb(145,70,255);
+    color: rgb(240,240,255);
+}
+
+.btn-twitch:hover {
+    background-color: rgb(130,5,180);
     color: rgb(240,240,255);
 }
 
