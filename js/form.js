@@ -1,5 +1,5 @@
 "use strict";
-let sheet = window.document.styleSheets[0];
+let sheet = window.document.styleSheets[window.document.styleSheets.length-1];
 let initialPositionForCssRules = sheet.cssRules.length;
 let hasCreatedOnce = false;
 let clientID = "nxkxsr40pk41esg5hs2kiwjxmfpsce";
@@ -59,9 +59,13 @@ function listener() {
     sheet.insertRule("#jumpBar {color: " + document.getElementById("textColor").value + "}", initialPositionForCssRules);
     sheet.insertRule(".progress {background-color: " + document.getElementById("bgColor").value + "}", initialPositionForCssRules);
     hasCreatedOnce = true;
-    console.log(sheet.cssRules[initialPositionForCssRules].cssText);
-    console.log(sheet.cssRules[initialPositionForCssRules + 1].cssText);
-    console.log(sheet.cssRules[initialPositionForCssRules + 2].cssText);
+    //console.log(sheet.cssRules[initialPositionForCssRules].cssText);
+    let oldText = sheet.cssRules[initialPositionForCssRules].cssText;
+    sheet.deleteRule(initialPositionForCssRules);
+    sheet.insertRule(oldText.replace("rgb", "rgba").replace(");", "," + document.getElementById("opacitySlider").value + ");"), initialPositionForCssRules)
+    //console.log(sheet.cssRules[initialPositionForCssRules].cssText);
+    //console.log(sheet.cssRules[initialPositionForCssRules + 1].cssText);
+    //console.log(sheet.cssRules[initialPositionForCssRules + 2].cssText);
     document.getElementById("cssOutput").value =
         sheet.cssRules[initialPositionForCssRules].cssText + " "
         + sheet.cssRules[initialPositionForCssRules + 1].cssText + " "

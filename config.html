@@ -17,7 +17,7 @@
             <h1>PointBar Configuration</h1>
             <form id="configForm">
                 <div class="form-group">
-                    <label for="modeToggles">Mode</label><br>
+                    <h2><label for="modeToggles">Mode</label></h2>
                     <div class="btn-group" id="modeToggles" role="group">
                         <input autocomplete="off" checked class="btn-check" id="modeBtnJump" name="modeRadio"
                                type="radio" value="jump">
@@ -35,6 +35,8 @@
                         [Explanation goes here]
                     </div>
                 </div>
+                <hr>
+                <h3>Basic Settings</h3>
                 <div class="form-group">
                     <label for="barTextInput">Text</label>
                     <input class="form-control" id="barTextInput" placeholder="Jumpscare...?" type="text"
@@ -84,6 +86,7 @@
                     <small class="form-text text-muted" id="redemptionPercentHint">How many % the bar should refill per
                         Channel Point Redemption (NOT its cost!)</small>
                 </div>
+                <hr>
                 <h3>Color Config</h3>
                 <div class="form-group">
                     <div class="input-group">
@@ -92,7 +95,7 @@
                         <input class="form-control input-group-text" id="textColor" type="color" value="#ffffff">
                         <span class="input-group-text">Background Color</span>
                         <!--suppress HtmlFormInputWithoutLabel -->
-                        <input class="form-control input-group-text" id="bgColor" type="color" value="#e9ecef">
+                        <input class="form-control input-group-text" id="bgColor" type="color" value="#808080">
                         <span class="input-group-text">Fill Color</span>
                         <!--suppress HtmlFormInputWithoutLabel -->
                         <input class="form-control input-group-text" id="fillColor" type="color" value="#0d6efd">
@@ -103,8 +106,12 @@
                         </div>
                     </div>
                     <br>
+                    <label for="opacitySlider">Background Opacity <small>(That's the opposite of Transparency!)</small></label>
+                    <input type="range" class="form-range" id="opacitySlider" min="0" max="1" value="0.5" step="0.01">
                 </div>
             </form>
+            <hr>
+            <h2>Result</h2>
             <label for="cssOutput">CSS to apply Custom Colors: </label>
             <div class="input-group"><input class="form-control" id="cssOutput" type="text">
                 <button class="btn btn-primary"
@@ -113,7 +120,7 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-9">
                     <label for="output">URL for Browser Source: </label>
                     <div class="input-group"><input class="form-control" id="output" type="text">
                         <button class="btn btn-primary"
@@ -124,7 +131,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     Or Drag&Drop this into OBS: <img alt="OBS Drag&Drop image" src="https://img.icons8.com/ios-filled/344/drag-and-drop.png" id="obsDrag" draggable="true">
                 </div>
             </div>

@@ -1,11 +1,16 @@
-body {
-    background-color: rgb(240,240,255);
+.progress {
+    background-color: rgba(128, 128, 128, 0.5);
 }
 
-.progress{
+body {
+    background-color: rgb(240, 240, 255);
+}
+
+.progress {
     width: 100vw;
     height: 100vh;
 }
+
 .progress, .progress-bar {
     animation-timing-function: linear;
     font-size: 6vmax;
@@ -13,14 +18,14 @@ body {
 }
 
 #modeToggles {
-    width:100%;
+    width: 100%;
 }
 
 input[type=color] {
     display: inline-block;
     height: 2.4rem;
-    flex: none!important;
-    width: 3rem!important;
+    flex: none !important;
+    width: 3rem !important;
 }
 
 #preview {
@@ -28,7 +33,7 @@ input[type=color] {
     border: none;
     margin: 0;
     top: -.4rem;
-    background-color: rgb(240,240,255);
+    background-color: rgb(240, 240, 255);
 }
 
 #preview > .progress {
@@ -47,13 +52,13 @@ input[type=color] {
 }
 
 .btn-twitch {
-    background-color: rgb(145,70,255);
-    color: rgb(240,240,255);
+    background-color: rgb(145, 70, 255);
+    color: rgb(240, 240, 255);
 }
 
 .btn-twitch:hover {
-    background-color: rgb(130,5,180);
-    color: rgb(240,240,255);
+    background-color: rgb(130, 5, 180);
+    color: rgb(240, 240, 255);
 }
 
 .btn-twitch > img {

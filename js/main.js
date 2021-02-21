@@ -22,7 +22,7 @@ let rewardsText = "Refill Point Bar";
 let rewardDescription = "Refills the \"Point Bar\" by " + percentIncrease + "%";
 let debugStop = false;
 let duration = 3;
-bar.innerText = "Checking authentication...";
+bar.innerText = "IF YOU SEE THIS SOMETHING'S WRONG!";
 //bar.style.animationDuration = /*(1 / refreshRate) + */"0s";
 //bar.style.animation = "none !important";
 
@@ -79,6 +79,7 @@ async function ping() {
 
 async function main() {
     console.log("hash: " + hash);
+    bar.innerText = "Checking Authentication...";
     if (hash !== null && hash.startsWith("#")) {
         hash = hash.substr(1);
         for (let part of hash.split("&")) {
