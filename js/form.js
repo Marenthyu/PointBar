@@ -123,6 +123,7 @@ document.addEventListener("dragstart", e => {
     url.searchParams.append("layer-name", "PointBar");
     url.searchParams.append("layer-width", "1200");
     url.searchParams.append("layer-height", "150");
+    url.searchParams.append("layer-css", document.getElementById("cssOutput").value);
     e.dataTransfer.setData("text/uri-list",  url.toString());
 });
 
