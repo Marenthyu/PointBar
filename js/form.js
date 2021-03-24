@@ -8,6 +8,7 @@ let token = localStorage.getItem("twitchToken");
 let twitchBtn = document.getElementsByClassName("btn-twitch")[0];
 let twitchBtnInner = twitchBtn.innerHTML;
 let initialized = false;
+const OBS_DEFAULT_CSS = "body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }";
 
 function hideDecay() {
     document.getElementById("nodecayModeCheckbox").checked = false;
@@ -92,7 +93,7 @@ function refreshOutput() {
     //console.log(sheet.cssRules[initialPositionForCssRules + 1].cssText);
     //console.log(sheet.cssRules[initialPositionForCssRules + 2].cssText);
     document.getElementById("cssOutput").value =
-        sheet.cssRules[initialPositionForCssRules].cssText + " "
+        OBS_DEFAULT_CSS + " " + sheet.cssRules[initialPositionForCssRules].cssText + " "
         + sheet.cssRules[initialPositionForCssRules + 1].cssText + " "
         + sheet.cssRules[initialPositionForCssRules + 2].cssText;
 
