@@ -82,6 +82,10 @@ input[type=color]:hover + label {
     background-color: white;
 }
 
+#obsOutputDiv {
+    margin-top: 2.5rem;
+}
+
 @media (prefers-color-scheme: dark) {
     body, #preview {
         background-color: #1b1c1f;

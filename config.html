@@ -113,15 +113,17 @@
             </form>
             <hr>
             <h2>Result</h2>
-            <label for="cssOutput">CSS to apply Custom Colors: </label>
-            <div class="input-group"><input class="form-control" id="cssOutput" type="text">
-                <button class="btn btn-primary"
-                        onclick="copyCSSOutput()">Copy
-                </button>
-            </div>
+
             <br>
             <div class="row">
                 <div class="col-sm-9">
+                    <label for="cssOutput">CSS to apply Custom Colors: </label>
+                    <div class="input-group"><input class="form-control" id="cssOutput" type="text">
+                        <button class="btn btn-primary"
+                                onclick="copyCSSOutput()">Copy
+                        </button>
+                    </div>
+                    <br>
                     <label for="output">URL for Browser Source: </label>
                     <div class="input-group"><input class="form-control" id="output" type="text">
                         <button class="btn btn-primary"
@@ -133,7 +135,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3" id="obsOutputDiv">
                     Or Drag&Drop this into OBS: <img alt="OBS Drag&Drop image"
                                                      draggable="true"
                                                      id="obsDrag" src="https://img.icons8.com/ios-filled/344/drag-and-drop.png">
